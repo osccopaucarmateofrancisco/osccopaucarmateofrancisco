@@ -17,6 +17,16 @@ IronVault — PWA de finanzas personales y de negocio para micro-negocios inform
 
 ![Skills](https://skillicons.dev/icons?i=py,fastapi,react,ts,tailwind,postgresql,git,github)
 
+## Radar de habilidades
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/assets/radar-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/assets/radar-light.svg" />
+  <img alt="Radar de habilidades autoevaluado" src="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/assets/radar-light.svg" width="420" />
+</picture>
+
+*Autoevaluación honesta, no un ranking — los valores viven en [`assets/skills.json`](assets/skills.json) y se regeneran solos.*
+
 ## Actividad
 
 <picture>
