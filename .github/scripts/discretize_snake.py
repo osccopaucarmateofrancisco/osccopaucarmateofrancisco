@@ -3,6 +3,36 @@ import sys
 
 PITCH = 16.0  # px per grid cell, derived from the source SVG's own translate values
 
+def clamp_above_grid(content):
+    """Platane/snk's solver sometimes routes the snake's rest pose (and a couple of
+    turn maneuvers) through the row directly above the visible calendar grid
+    (y = -16px, i.e. one cell-pitch above row 0). Visually this reads as the snake
+    'escaping' the grid. Snap any such translate(...,-16px) back down to row 0 --
+    this covers both the @keyframes stops and the static .s.sN{...} fallback rule,
+    since both use the same translate(Xpx,Ypx) syntax."""
+    return re.sub(r'(translate\([-\d.]+px,)-16px\)', r'\g<1>0px)', content)
+
+def uniform_segment_size(content):
+    """Platane/snk tapers the snake's body: the head <rect> is drawn larger than the
+    tail segments (different x/y/width/height/rx/ry per class), so the tail looks
+    like it doesn't fully fill its cell. Make every segment use the head's (s0's)
+    geometry so all segments render as identical, fully-colored squares."""
+    pattern = re.compile(
+        r'<rect class="s s(\d+)" x="([-\d.]+)" y="([-\d.]+)" '
+        r'width="([-\d.]+)" height="([-\d.]+)" rx="([-\d.]+)" ry="([-\d.]+)"/>'
+    )
+    matches = list(pattern.finditer(content))
+    if not matches:
+        return content
+    # use the first segment declared (the head, s0) as the canonical full-size square
+    _, x0, y0, w0, h0, rx0, ry0 = matches[0].groups()
+
+    def replace(m):
+        idx = m.group(1)
+        return f'<rect class="s s{idx}" x="{x0}" y="{y0}" width="{w0}" height="{h0}" rx="{rx0}" ry="{ry0}"/>'
+
+    return pattern.sub(replace, content)
+
 def fmt(p):
     # format percentage compactly, matching source style closely enough (up to 2 decimals)
     s = f"{p:.3f}".rstrip('0').rstrip('.')
@@ -43,8 +73,10 @@ def discretize(stops):
         dist = max(abs(dx), abs(dy))
         n = round(dist / PITCH) if dist > 0 else 0
 
-        if n <= 1 or span <= 0:
-            # already a single-cell (or zero-distance) move -- keep as is
+        if n <= 1 or span <= 0 or (dx != 0 and dy != 0):
+            # already a single-cell (or zero-distance) move, or a diagonal
+            # decorative detour that isn't a straight grid-aligned glide --
+            # leave it exactly as declared rather than guessing at sub-steps
             new_stops.append(([first_pct] + pct_list[1:], x, y))
             continue
 
@@ -96,6 +128,8 @@ def extract_block_span(content, name):
     raise ValueError(f"unbalanced braces for {name}")
 
 def process(content):
+    content = uniform_segment_size(content)
+    content = clamp_above_grid(content)
     names = sorted(set(re.findall(r'@keyframes (s\d+)\{', content)))
     for name in names:
         block_start, block_end, body = extract_block_span(content, name)
