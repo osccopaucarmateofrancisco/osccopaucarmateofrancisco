@@ -19,7 +19,6 @@ jobs:
           image-file: images/userstats-light.svg
           colors: light
           locale: es
-          commit-and-push: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
