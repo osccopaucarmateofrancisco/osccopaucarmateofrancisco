@@ -1,0 +1,79 @@
+name: metrics
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "assets/skills.json"
+      - ".github/scripts/radar.py"
+      - ".github/workflows/metrics.yml"
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Isometric contribution calendar (light)
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/isocalendar-light.svg
+          base: ""
+          base_skip: yes
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+
+      - name: Isometric contribution calendar (dark)
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/isocalendar-dark.svg
+          base: ""
+          base_skip: yes
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          extras_css: |
+            svg { filter: invert(1) hue-rotate(180deg); }
+
+      - name: Stats + languages + achievements (light)
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/numbers-light.svg
+          plugin_languages: yes
+          plugin_languages_limit: 8
+          plugin_languages_details: percentage
+          plugin_achievements: yes
+          plugin_achievements_limit: 6
+
+      - name: Stats + languages + achievements (dark)
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/numbers-dark.svg
+          plugin_languages: yes
+          plugin_languages_limit: 8
+          plugin_languages_details: percentage
+          plugin_achievements: yes
+          plugin_achievements_limit: 6
+          extras_css: |
+            svg { filter: invert(1) hue-rotate(180deg); }
+
+      - name: Generate self-rated skill radar
+        run: |
+          python3 .github/scripts/radar.py --data assets/skills.json -o assets/radar --values
+
+      - name: Commit skill radar
+        run: |
+          git pull --rebase
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/radar-light.svg assets/radar-dark.svg
+          git diff --cached --quiet || git commit -m "chore: refresh skill radar"
+          git push
