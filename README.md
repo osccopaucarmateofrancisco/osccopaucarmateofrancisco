@@ -19,6 +19,8 @@ IronVault — PWA de finanzas personales y de negocio para micro-negocios inform
 
 ## Actividad
 
+![Gráfico animado de contribuciones](https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/output/snake.svg)
+
 ![Estadísticas de GitHub](https://github-readme-stats.vercel.app/api?username=osccopaucarmateofrancisco&show_icons=true&hide_border=true&theme=default)
 
 ![Gráfico de actividad](https://github-readme-activity-graph.vercel.app/graph?username=osccopaucarmateofrancisco&theme=react-dark&hide_border=true)
