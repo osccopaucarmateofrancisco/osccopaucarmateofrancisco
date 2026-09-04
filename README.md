@@ -21,9 +21,11 @@ IronVault — PWA de finanzas personales y de negocio para micro-negocios inform
 
 ![Gráfico animado de contribuciones](https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/output/snake.svg)
 
-![Estadísticas de GitHub](https://github-readme-stats.vercel.app/api?username=osccopaucarmateofrancisco&show_icons=true&hide_border=true&theme=default)
-
-![Gráfico de actividad](https://github-readme-activity-graph.vercel.app/graph?username=osccopaucarmateofrancisco&theme=react-dark&hide_border=true)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/images/userstats-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/images/userstats-light.svg" />
+  <img alt="Estadísticas de GitHub" src="https://raw.githubusercontent.com/osccopaucarmateofrancisco/osccopaucarmateofrancisco/main/images/userstats-dark.svg" />
+</picture>
 
 ![Visitas al perfil](https://visitor-badge.laobi.icu/badge?page_id=osccopaucarmateofrancisco.osccopaucarmateofrancisco)
 
