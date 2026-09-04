@@ -1,0 +1,33 @@
+name: user-statistician
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate stats card (light)
+        uses: cicirello/user-statistician@v1
+        with:
+          image-file: images/userstats-light.svg
+          colors: light
+          locale: es
+          commit-and-push: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate stats card (dark)
+        uses: cicirello/user-statistician@v1
+        with:
+          image-file: images/userstats-dark.svg
+          colors: dark
+          locale: es
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
