@@ -1,0 +1,12 @@
+{
+  "title": "Skill Radar",
+  "axes": [
+    { "label": "Automatización con IA", "value": 80 },
+    { "label": "Python", "value": 75 },
+    { "label": "FastAPI / APIs", "value": 70 },
+    { "label": "Bases de datos", "value": 55 },
+    { "label": "React", "value": 55 },
+    { "label": "TypeScript", "value": 50 },
+    { "label": "Git / DevOps", "value": 60 }
+  ]
+}
