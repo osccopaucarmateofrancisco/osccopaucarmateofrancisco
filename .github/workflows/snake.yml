@@ -24,8 +24,10 @@ jobs:
 
       - name: Make the snake move cell by cell (discrete hops instead of a smooth glide)
         run: |
-          python3 .github/scripts/discretize_snake.py dist/snake.svg dist/snake.svg
-          python3 .github/scripts/discretize_snake.py dist/snake-dark.svg dist/snake-dark.svg
+          python3 .github/scripts/discretize_snake.py dist/snake.svg dist/snake.tmp.svg
+          mv -f dist/snake.tmp.svg dist/snake.svg
+          python3 .github/scripts/discretize_snake.py dist/snake-dark.svg dist/snake-dark.tmp.svg
+          mv -f dist/snake-dark.tmp.svg dist/snake-dark.svg
 
       - uses: crazy-max/ghaction-github-pages@v4
         with:
